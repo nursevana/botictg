@@ -1,40 +1,7 @@
-import os
-import logging
-from random import choices, randint, choice
+import telebot
+from telebot import types
+from random import choices, randint
 from collections import defaultdict
-from dotenv import load_dotenv
-from telebot import TeleBot, types
-from sqlalchemy import create_engine, Column, Integer, String, JSON
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-# Загрузка переменных окружения
-load_dotenv()
-TOKEN = os.getenv('7638805645:AAGVHS0Yr1yxn34LTtZ14tTL8R0ADHZmR9I')
-
-# Инициализация базы данных
-Base = declarative_base()
-engine = create_engine('sqlite:///english_bot.db')
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# Модели данных
-class User(Base):
-    tablename = 'users'
-    id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, unique=True)
-    test_count = Column(Integer, default=0)
-    exercise_history = Column(JSON, default=[])
-
-class ExerciseResult(Base):
-    tablename = 'exercise_results'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer)
-    rule = Column(String)
-    question = Column(String)
-    is_correct = Column(Integer)
-
-Base.metadata.create_all(engine)
 
 # Инициализация бота
 bot = telebot.TeleBot('7638805645:AAGVHS0Yr1yxn34LTtZ14tTL8R0ADHZmR9I')
